@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-ulk-blue: #0d3b66;
+  --color-ulk-blue-light: #1e5485;
+  --color-ulk-blue-dark: #071e33;
+  --color-ulk-blue-slate: #1a2e40;
+  --color-ulk-blue-hover: #134775;
+  
+  --color-ulk-gold: #f4d35e;
+  --color-ulk-gold-light: #fbf2c0;
+  --color-ulk-gold-dark: #c49a1d;
+  --color-ulk-gold-hover: #e8c241;
+  
+  --color-ulk-accent: #ee964b;
+
+  --font-sans: 'Outfit', 'Inter', sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: #f8fafc;
+    color: #0f172a;
+    font-family: Outfit, Inter, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  .theme-dark body {
+    background-color: #020617;
+    color: #e5e7eb;
+  }
+}
+
+.theme-dark .theme-dark-surface {
+  color: #e5e7eb;
+}
+
+.theme-dark .bg-white,
+.theme-dark .bg-white\/80,
+.theme-dark .bg-white\/90 {
+  background-color: rgba(15, 23, 42, 0.9) !important;
+}
+
+.theme-dark .bg-neutral-50,
+.theme-dark .bg-neutral-50\/50,
+.theme-dark .bg-slate-50 {
+  background-color: rgba(30, 41, 59, 0.72) !important;
+}
+
+.theme-dark .text-neutral-900,
+.theme-dark .text-neutral-800,
+.theme-dark .text-slate-900 {
+  color: #f8fafc !important;
+}
+
+.theme-dark .text-neutral-700,
+.theme-dark .text-neutral-600,
+.theme-dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+.theme-dark .text-neutral-500,
+.theme-dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+.theme-dark .border-neutral-200,
+.theme-dark .border-neutral-100,
+.theme-dark .border-slate-200,
+.theme-dark .border-slate-100 {
+  border-color: rgba(148, 163, 184, 0.28) !important;
+}
+
+.theme-dark input,
+.theme-dark select,
+.theme-dark textarea {
+  background-color: rgba(15, 23, 42, 0.82) !important;
+  border-color: rgba(148, 163, 184, 0.32) !important;
+  color: #f8fafc !important;
+}
+
+.theme-dark input::placeholder,
+.theme-dark textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+.theme-dark .glass {
+  background: rgba(15, 23, 42, 0.72);
+}
+
+/* Glassmorphism Classes */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-dark {
+  background: rgba(7, 30, 51, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Animation Micro-effects */
+.hover-lift {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
+/* Stepper Connector Lines */
+.stepper-line {
+  transition: background-color 0.4s ease;
+}

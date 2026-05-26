@@ -1,0 +1,1 @@
+# Admissions Django app
