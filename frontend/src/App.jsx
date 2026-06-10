@@ -1,5 +1,5 @@
 import AppRoutes from './routes/AppRoutes';
-import { SettingsProvider, useSettings } from './context/settingsContext';
+import { useSettings } from './context/settingsContext';
 import './App.css';
 
 function AppShell() {
@@ -14,9 +14,7 @@ function AppShell() {
 
 function App() {
   return (
-    <SettingsProvider>
-      <AppShell />
-    </SettingsProvider>
+    <AppShell />
   );
 }
 
