@@ -33,6 +33,11 @@ const authService = {
   patchProfile: async (profileData) => {
     const response = await api.patch('accounts/profile/', profileData);
     return response.data;
+  },
+
+  resendVerification: async ({ email }) => {
+    const response = await api.post('accounts/resend-verification/', { email });
+    return response.data;
   }
 };
 

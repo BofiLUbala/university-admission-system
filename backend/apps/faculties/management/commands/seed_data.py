@@ -371,4 +371,10 @@ class Command(BaseCommand):
             )
             self.stdout.write("Created Rejected Application for Christian Lelo")
 
+        # Mark all seed users as email-verified so they can log in
+        for user in [super_admin, officer, faculty_admin, student1, student2, student3]:
+            if not user.is_email_verified:
+                user.is_email_verified = True
+                user.save(update_fields=['is_email_verified'])
+
         self.stdout.write(self.style.SUCCESS("Database seeding completed successfully!"))

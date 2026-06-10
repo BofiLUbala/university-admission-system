@@ -14,6 +14,7 @@ import Contact from '../pages/public/Contact';
 // Auth Pages
 import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
+import VerifyEmail from '../pages/auth/VerifyEmail';
 
 // Student Pages
 import StudentDashboard from '../pages/student/Dashboard';
@@ -38,6 +39,7 @@ const AppRoutes = () => {
         {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
       </Route>
 
       {/* Student Protected Routes */}

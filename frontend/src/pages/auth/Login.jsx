@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginStart, loginSuccess, loginFailure } from '../../store/slices/authSlice';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, CheckCircle, AlertTriangle } from 'lucide-react';
 import authService from '../../services/authService';
 
 const Login = () => {
@@ -15,10 +15,20 @@ const Login = () => {
 
   const from = location.state?.from?.pathname || '/student/dashboard';
 
+  const successMessage = new URLSearchParams(location.search).get('registration') === 'success'
+    ? 'Compte créé avec succès ! Veuillez vérifier votre boîte email et cliquer sur le lien de confirmation avant de vous connecter.'
+    : null;
+
+  const verifiedMessage = new URLSearchParams(location.search).get('verified') === 'true'
+    ? 'Email vérifié avec succès ! Vous pouvez maintenant vous connecter.'
+    : null;
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+
+  const displayMessage = verifiedMessage || successMessage;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -45,7 +55,10 @@ const Login = () => {
         navigate('/student/dashboard', { replace: true });
       }
     } catch (err) {
-      const errorMsg = err.response?.data?.detail || err.response?.data?.non_field_errors?.[0] || err.message || 'Login failed. Please check your credentials.';
+      const errorMsg = err.response?.data?.detail
+        || err.response?.data?.non_field_errors?.[0]
+        || err.message
+        || 'Login failed. Please check your credentials.';
       dispatch(loginFailure(errorMsg));
     }
   };
@@ -72,6 +85,17 @@ const Login = () => {
             </Link>
           </p>
         </div>
+
+        {displayMessage && (
+          <div className={`flex items-start gap-3 p-4 rounded-xl text-sm font-medium border ${
+            verifiedMessage
+              ? 'bg-green-50 text-green-700 border-green-200'
+              : 'bg-blue-50 text-blue-700 border-blue-200'
+          }`}>
+            {verifiedMessage ? <CheckCircle size={20} className="shrink-0 mt-0.5" /> : <AlertTriangle size={20} className="shrink-0 mt-0.5" />}
+            <span>{displayMessage}</span>
+          </div>
+        )}
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
