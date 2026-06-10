@@ -105,7 +105,7 @@ const Dashboard = () => {
             </div>
             <div>
               <p className="text-sm font-medium text-neutral-800">Account Created Successfully</p>
-              <p className="text-xs text-neutral-500 mt-1">Welcome to the ULK online admission portal.</p>
+              <p className="text-xs text-neutral-500 mt-1">Welcome to the UPK online admission portal.</p>
               <p className="text-xs text-neutral-400 mt-2">1 day ago</p>
             </div>
           </div>

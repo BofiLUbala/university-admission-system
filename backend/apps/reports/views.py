@@ -68,7 +68,7 @@ class ExportApplicationsExcelView(APIView):
         # Create workbook
         wb = openpyxl.Workbook()
         ws = wb.active
-        ws.title = "Candidatures ULK"
+        ws.title = "Candidatures UPK"
 
         # Headers
         headers = [

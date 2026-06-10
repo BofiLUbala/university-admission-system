@@ -69,7 +69,7 @@ class AdmissionApplicationViewSet(viewsets.ModelViewSet):
         Notification.objects.create(
             user=application.user,
             title="Mise à jour de votre dossier",
-            message=f"Le statut de votre candidature à l'ULK est désormais : {status_display}. Commentaire : {comment or 'Pas de commentaire.'}"
+            message=f"Le statut de votre candidature à l'UPK est désormais : {status_display}. Commentaire : {comment or 'Pas de commentaire.'}"
         )
 
         return Response(AdmissionApplicationSerializer(application).data)

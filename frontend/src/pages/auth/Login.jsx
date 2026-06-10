@@ -75,7 +75,7 @@ const Login = () => {
       >
         <div className="text-center">
           <div className="mx-auto w-16 h-16 bg-ulk-blue rounded-2xl flex items-center justify-center text-ulk-gold font-bold text-2xl shadow-lg mb-6">
-            ULK
+            UPK
           </div>
           <h2 className="mt-2 text-3xl font-bold text-neutral-900">Welcome Back</h2>
           <p className="mt-2 text-sm text-neutral-600">

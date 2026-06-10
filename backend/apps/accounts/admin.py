@@ -10,8 +10,8 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('role', 'is_staff', 'is_superuser', 'is_active')
     search_fields = ('username', 'email', 'first_name', 'last_name', 'phone_number')
     fieldsets = UserAdmin.fieldsets + (
-        ('ULK Profile', {'fields': ('role', 'phone_number')}),
+        ('UPK Profile', {'fields': ('role', 'phone_number')}),
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
-        ('ULK Profile', {'fields': ('role', 'phone_number')}),
+        ('UPK Profile', {'fields': ('role', 'phone_number')}),
     )

@@ -10,6 +10,7 @@ import AdminLayout from '../layouts/AdminLayout';
 import Home from '../pages/public/Home';
 import About from '../pages/public/About';
 import Contact from '../pages/public/Contact';
+import PublicFaculties from '../pages/public/Faculties';
 
 // Auth Pages
 import Login from '../pages/auth/Login';
@@ -35,6 +36,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/faculties" element={<PublicFaculties />} />
         
         {/* Auth */}
         <Route path="/login" element={<Login />} />

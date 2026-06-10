@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     
-    # ULK Custom Apps
+    # UPK Custom Apps
     'accounts',
     'faculties',
     'admissions',

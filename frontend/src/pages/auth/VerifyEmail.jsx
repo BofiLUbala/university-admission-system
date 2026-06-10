@@ -47,7 +47,7 @@ const VerifyEmail = () => {
         className="max-w-md w-full bg-white p-10 rounded-3xl shadow-xl z-10 border border-neutral-100 text-center"
       >
         <div className="mx-auto w-16 h-16 bg-ulk-blue rounded-2xl flex items-center justify-center text-ulk-gold font-bold text-2xl shadow-lg mb-6">
-          ULK
+          UPK
         </div>
 
         {status === 'loading' && (

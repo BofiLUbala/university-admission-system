@@ -1,9 +1,28 @@
 import { Outlet, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { MessageCircle } from 'lucide-react';
+
+const WHATSAPP_NUMBER = '243981215754';
+
+const WhatsAppBubble = () => (
+  <a
+    href={`https://wa.me/${WHATSAPP_NUMBER}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-green-500 text-white px-5 py-3.5 rounded-full shadow-xl hover:bg-green-600 hover:shadow-2xl hover:scale-105 transition-all duration-300 group"
+    aria-label="Contactez-nous sur WhatsApp"
+  >
+    <MessageCircle size={24} className="fill-white" />
+    <span className="hidden sm:inline text-sm font-semibold group-hover:block transition-all">
+      Écrivez-nous
+    </span>
+  </a>
+);
 
 const PublicLayout = () => {
   return (
     <div className="min-h-screen flex flex-col font-sans bg-transparent">
+      <WhatsAppBubble />
       {/* Header */}
       <header className="glass fixed w-full top-0 z-50 border-b border-white/20 shadow-sm">
         <div className="container mx-auto px-4 lg:px-8">
@@ -11,10 +30,10 @@ const PublicLayout = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 hover-lift">
               <div className="w-12 h-12 bg-ulk-blue rounded-xl flex items-center justify-center text-ulk-gold font-bold text-xl shadow-lg">
-                ULK
+                UPK
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-xl font-bold text-ulk-blue leading-tight">Université Libre</h1>
+                <h1 className="text-xl font-bold text-ulk-blue leading-tight">Université Progressiste</h1>
                 <p className="text-sm text-ulk-accent font-medium">de Kinshasa</p>
               </div>
             </Link>
@@ -23,6 +42,7 @@ const PublicLayout = () => {
             <nav className="hidden md:flex items-center gap-8">
               <Link to="/" className="text-neutral-800 hover:text-ulk-blue font-medium transition-colors">Home</Link>
               <Link to="/about" className="text-neutral-800 hover:text-ulk-blue font-medium transition-colors">About</Link>
+              <Link to="/faculties" className="text-neutral-800 hover:text-ulk-blue font-medium transition-colors">Facultés</Link>
               <Link to="/contact" className="text-neutral-800 hover:text-ulk-blue font-medium transition-colors">Contact</Link>
             </nav>
 
@@ -57,9 +77,9 @@ const PublicLayout = () => {
             <div className="md:col-span-2">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-ulk-blue font-bold text-lg">
-                  ULK
+                  UPK
                 </div>
-                <h2 className="text-2xl font-bold text-white">Université Libre de Kinshasa</h2>
+                <h2 className="text-2xl font-bold text-white">Université Progressiste de Kinshasa</h2>
               </div>
               <p className="text-neutral-300 max-w-md leading-relaxed">
                 Empowering the next generation of leaders in Democratic Republic of Congo through excellence in education, research, and innovation.
@@ -79,13 +99,13 @@ const PublicLayout = () => {
               <ul className="space-y-4 text-neutral-300">
                 <li>15th Street, Limete Industrial</li>
                 <li>Kinshasa, DRC</li>
-                <li>info@ulk-kinshasa.net</li>
+                <li>info@upk-kinshasa.net</li>
                 <li>+243 81 000 0000</li>
               </ul>
             </div>
           </div>
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between text-neutral-400 text-sm">
-            <p>&copy; {new Date().getFullYear()} Université Libre de Kinshasa. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Université Progressiste de Kinshasa. All rights reserved.</p>
             <div className="flex gap-4 mt-4 md:mt-0">
               <Link to="#" className="hover:text-white transition-colors">Privacy Policy</Link>
               <Link to="#" className="hover:text-white transition-colors">Terms of Service</Link>

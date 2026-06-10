@@ -13,12 +13,12 @@ def send_verification_email(user):
 
     verification_link = f"{settings.FRONTEND_URL}/verify-email?token={token}"
 
-    subject = "Confirmez votre adresse email - ULK Admission"
+    subject = "Confirmez votre adresse email - UPK Admission"
     
     text_message = f"""
 Bonjour {user.first_name or user.username},
 
-Merci d'avoir créé un compte sur le portail d'admission ULK.
+Merci d'avoir créé un compte sur le portail d'admission UPK.
 
 Veuillez cliquer sur le lien ci-dessous pour confirmer votre adresse email :
 {verification_link}
@@ -28,7 +28,7 @@ Ce lien est valable 2 heures et ne peut être utilisé qu'une seule fois.
 Si vous n'avez pas créé de compte, veuillez ignorer cet email.
 
 Cordialement,
-L'équipe d'admission ULK
+L'équipe d'admission UPK
 """
 
     html_message = f"""<!DOCTYPE html>
@@ -36,7 +36,7 @@ L'équipe d'admission ULK
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Confirmation d'email - ULK</title>
+  <title>Confirmation d'email - UPK</title>
 </head>
 <body style="margin:0;padding:0;background-color:#f0f2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f0f2f5;padding:30px 10px;">
@@ -44,12 +44,12 @@ L'équipe d'admission ULK
       <td align="center">
         <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
 
-          <!-- Header with ULK branding -->
+          <!-- Header with UPK branding -->
           <tr>
             <td style="background:linear-gradient(135deg,#0a2647 0%,#1a4a7a 50%,#2c5f8a 100%);padding:36px 30px;text-align:center;">
-              <div style="display:inline-block;width:64px;height:64px;background-color:#d4a843;border-radius:16px;line-height:64px;font-size:28px;font-weight:900;color:#0a2647;margin-bottom:12px;">ULK</div>
+              <div style="display:inline-block;width:64px;height:64px;background-color:#d4a843;border-radius:16px;line-height:64px;font-size:28px;font-weight:900;color:#0a2647;margin-bottom:12px;">UPK</div>
               <h1 style="color:#ffffff;margin:8px 0 0;font-size:22px;font-weight:700;letter-spacing:-0.3px;">Portail d'Admission</h1>
-              <p style="color:#a8c8e8;margin:4px 0 0;font-size:14px;">Université Libre de Kinshasa</p>
+              <p style="color:#a8c8e8;margin:4px 0 0;font-size:14px;">Université Progressiste de Kinshasa</p>
             </td>
           </tr>
 
@@ -59,7 +59,7 @@ L'équipe d'admission ULK
               <h2 style="color:#1a1a2e;font-size:20px;font-weight:700;margin:0 0 18px;">Confirmez votre adresse email</h2>
               <p style="color:#4a4a5a;font-size:15px;line-height:1.7;margin:0 0 10px;">Bonjour <strong style="color:#1a1a2e;">{user.first_name or user.username}</strong>,</p>
               <p style="color:#4a4a5a;font-size:15px;line-height:1.7;margin:0 0 6px;">
-                Merci d'avoir créé un compte sur le portail d'admission de l'<strong>Université Libre de Kinshasa</strong>.
+                Merci d'avoir créé un compte sur le portail d'admission de l'<strong>Université Progressiste de Kinshasa</strong>.
               </p>
               <p style="color:#4a4a5a;font-size:15px;line-height:1.7;margin:0 0 24px;">
                 Pour activer votre compte et commencer votre processus d'admission, veuillez cliquer sur le bouton ci-dessous :
@@ -98,11 +98,11 @@ L'équipe d'admission ULK
           <tr>
             <td style="background-color:#f8f9fb;padding:24px 30px;text-align:center;border-top:1px solid #eef0f4;">
               <p style="color:#999aaa;font-size:12px;line-height:1.6;margin:0 0 6px;">
-                <strong style="color:#666880;">Université Libre de Kinshasa (ULK)</strong><br>
+                <strong style="color:#666880;">Université Progressiste de Kinshasa (UPK)</strong><br>
                 Kinshasa, République Démocratique du Congo
               </p>
               <p style="color:#bbbbcc;font-size:11px;margin:0;">
-                &copy; {timezone.now().year} ULK - Tous droits réservés.
+                &copy; {timezone.now().year} UPK - Tous droits réservés.
               </p>
             </td>
           </tr>

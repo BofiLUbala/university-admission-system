@@ -157,7 +157,7 @@ const StudentLayout = () => {
         <div className="h-20 flex items-center px-8 border-b border-neutral-100">
           <Link to="/" className="flex items-center gap-3">
             <div className="w-10 h-10 bg-ulk-blue rounded-xl flex items-center justify-center text-ulk-gold font-bold shadow-md">
-              ULK
+              UPK
             </div>
             <div>
               <h1 className="text-lg font-bold text-ulk-blue leading-tight">{t.student}</h1>
@@ -219,7 +219,7 @@ const StudentLayout = () => {
               <div className="h-20 flex items-center justify-between px-6 border-b border-neutral-100">
                 <Link to="/" className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-ulk-blue rounded-xl flex items-center justify-center text-ulk-gold font-bold shadow-md">
-                    ULK
+                    UPK
                   </div>
                   <span className="text-lg font-bold text-ulk-blue">{t.studentPortal}</span>
                 </Link>

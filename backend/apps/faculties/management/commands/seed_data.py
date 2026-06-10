@@ -11,7 +11,7 @@ import datetime
 User = get_user_model()
 
 class Command(BaseCommand):
-    help = 'Seeds the database with ULK faculties, departments, admin accounts, and sample student data'
+    help = 'Seeds the database with UPK faculties, departments, admin accounts, and sample student data'
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.WARNING("Starting database seed..."))
@@ -22,7 +22,7 @@ class Command(BaseCommand):
         # Super Admin
         super_admin, created = User.objects.get_or_create(
             username='superadmin',
-            email='superadmin@ulk.ac.cd',
+            email='superadmin@upk.ac.cd',
             defaults={
                 'first_name': 'Super',
                 'last_name': 'Admin',
@@ -35,12 +35,12 @@ class Command(BaseCommand):
         if created:
             super_admin.set_password('adminpassword123')
             super_admin.save()
-            self.stdout.write("Created Super Admin: superadmin@ulk.ac.cd / adminpassword123")
+            self.stdout.write("Created Super Admin: superadmin@upk.ac.cd / adminpassword123")
 
         # Admission Officer
         officer, created = User.objects.get_or_create(
             username='officer',
-            email='officer@ulk.ac.cd',
+            email='officer@upk.ac.cd',
             defaults={
                 'first_name': 'Jean',
                 'last_name': 'Mukendi',
@@ -52,12 +52,12 @@ class Command(BaseCommand):
         if created:
             officer.set_password('adminpassword123')
             officer.save()
-            self.stdout.write("Created Admission Officer: officer@ulk.ac.cd / adminpassword123")
+            self.stdout.write("Created Admission Officer: officer@upk.ac.cd / adminpassword123")
 
         # Faculty Admin
         faculty_admin, created = User.objects.get_or_create(
             username='faculty_admin',
-            email='faculty@ulk.ac.cd',
+            email='faculty@upk.ac.cd',
             defaults={
                 'first_name': 'Prof. Marie',
                 'last_name': 'Kabamba',
@@ -69,7 +69,7 @@ class Command(BaseCommand):
         if created:
             faculty_admin.set_password('adminpassword123')
             faculty_admin.save()
-            self.stdout.write("Created Faculty Admin: faculty@ulk.ac.cd / adminpassword123")
+            self.stdout.write("Created Faculty Admin: faculty@upk.ac.cd / adminpassword123")
 
         # Sample Student 1
         student1, created = User.objects.get_or_create(
@@ -316,7 +316,7 @@ class Command(BaseCommand):
             Notification.objects.create(
                 user=student2,
                 title="Candidature Approuvée !",
-                message="Félicitations Sarah Mbuyi, votre candidature à l'ULK pour l'année 2025-2026 a été approuvée. Téléchargez votre lettre d'admission."
+                message="Félicitations Sarah Mbuyi, votre candidature à l'UPK pour l'année 2025-2026 a été approuvée. Téléchargez votre lettre d'admission."
             )
             self.stdout.write("Created Approved Application for Sarah Mbuyi")
 
@@ -367,7 +367,7 @@ class Command(BaseCommand):
             Notification.objects.create(
                 user=student3,
                 title="Refus de Candidature",
-                message="Votre candidature n'a pas été retenue à l'ULK. Raison : Pourcentage insuffisant. Veuillez nous contacter pour d'autres options."
+                message="Votre candidature n'a pas été retenue à l'UPK. Raison : Pourcentage insuffisant. Veuillez nous contacter pour d'autres options."
             )
             self.stdout.write("Created Rejected Application for Christian Lelo")
 

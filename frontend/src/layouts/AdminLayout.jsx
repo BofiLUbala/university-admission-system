@@ -39,7 +39,7 @@ const AdminLayout = () => {
         <div className="h-20 flex items-center px-8 bg-ulk-blue-slate border-b border-white/5">
           <Link to="/" className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-ulk-blue-dark font-bold shadow-md">
-              ULK
+              UPK
             </div>
             <div>
               <h1 className="text-lg font-bold text-white leading-tight">Admin</h1>
@@ -104,7 +104,7 @@ const AdminLayout = () => {
               <div className="h-20 flex items-center justify-between px-6 bg-ulk-blue-slate border-b border-white/5">
                 <Link to="/" className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-ulk-blue-dark font-bold">
-                    ULK
+                    UPK
                   </div>
                   <span className="text-lg font-bold text-white">Admin Panel</span>
                 </Link>

@@ -41,7 +41,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
         # Mocks the mobile money transaction processing (Immediate Success)
         payment = serializer.save(
             application=application,
-            amount=50.00,  # Standard ULK Admission Fee
+            amount=50.00,  # Standard UPK Admission Fee
             currency='USD',
             operator=operator,
             phone_number=phone_number,
@@ -93,7 +93,7 @@ class DownloadReceiptView(APIView):
             parent=styles['Heading1'],
             fontSize=20,
             leading=24,
-            textColor=colors.HexColor('#0d3b66'), # ULK Blue
+            textColor=colors.HexColor('#0d3b66'), # UPK Blue
             alignment=1, # Center
             spaceAfter=15
         )
@@ -207,8 +207,8 @@ class DownloadReceiptView(APIView):
             textColor=colors.HexColor('#888888'),
             alignment=1
         )
-        elements.append(Paragraph("Ce document est un reçu officiel généré automatiquement par le portail des admissions de l'ULK.", footer_style))
-        elements.append(Paragraph("Université Libre de Kinshasa - Direction de l'Enseignement et des Admissions", footer_style))
+        elements.append(Paragraph("Ce document est un reçu officiel généré automatiquement par le portail des admissions de l'UPK.", footer_style))
+        elements.append(Paragraph("Université Progressiste de Kinshasa - Direction de l'Enseignement et des Admissions", footer_style))
 
         doc.build(elements)
         
