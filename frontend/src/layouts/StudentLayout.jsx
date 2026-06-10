@@ -26,7 +26,7 @@ const StudentLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useSelector((state) => state.auth);
-  const { t } = useSettings();
+  const { t, backgroundClass } = useSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileEditorOpen, setProfileEditorOpen] = useState(false);
   const [profileSaving, setProfileSaving] = useState(false);
@@ -151,7 +151,7 @@ const StudentLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen flex bg-transparent">
+    <div className={`min-h-screen flex ${backgroundClass}`}>
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex flex-col w-72 bg-white border-r border-neutral-200 fixed h-full z-20">
         <div className="h-20 flex items-center px-8 border-b border-neutral-100">

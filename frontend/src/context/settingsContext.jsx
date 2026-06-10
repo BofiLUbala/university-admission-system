@@ -220,11 +220,18 @@ const getStoredSettings = () => {
 export const SettingsProvider = ({ children }) => {
   const [settings, setSettings] = useState(getStoredSettings);
 
+  const backgroundClass = useMemo(
+    () => `${backgroundClasses[settings.background] || backgroundClasses.steel} ${settings.theme === 'dark' ? 'theme-dark-surface' : ''}`,
+    [settings]
+  );
+
   useEffect(() => {
     localStorage.setItem('ulk_student_settings', JSON.stringify(settings));
     document.documentElement.lang = settings.language;
     document.documentElement.classList.toggle('theme-dark', settings.theme === 'dark');
-  }, [settings]);
+
+
+  }, [settings, backgroundClass]);
 
   const value = useMemo(() => {
     const t = translations[settings.language] || translations.en;
@@ -232,10 +239,10 @@ export const SettingsProvider = ({ children }) => {
     return {
       settings,
       t,
-      backgroundClass: `${backgroundClasses[settings.background] || backgroundClasses.steel} ${settings.theme === 'dark' ? 'theme-dark-surface' : ''}`,
+      backgroundClass,
       updateSetting: (key, value) => setSettings((current) => ({ ...current, [key]: value }))
     };
-  }, [settings]);
+  }, [settings, backgroundClass]);
 
   return (
     <SettingsContext.Provider value={value}>

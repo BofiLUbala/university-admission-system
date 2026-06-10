@@ -59,7 +59,8 @@ const newsItems = [
     title: 'Date Limite d\'Inscription Approchante',
     description: 'Les inscriptions pour l\'année académique 2026-2027 sont ouvertes. Postulez avant le 30 Juillet.',
     tag: 'Inscriptions',
-    tagColor: 'bg-ulk-gold text-ulk-blue-dark'
+    tagColor: 'bg-ulk-gold text-ulk-blue-dark',
+    image: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1932&auto=format&fit=crop'
   },
   {
     icon: Trophy,
@@ -67,7 +68,8 @@ const newsItems = [
     title: 'L\'UPK Remporte le Championnat National',
     description: 'Notre équipe de débat a remporté la première place au championnat national inter-universitaire.',
     tag: 'Excellence',
-    tagColor: 'bg-green-100 text-green-700'
+    tagColor: 'bg-green-100 text-green-700',
+    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop'
   },
   {
     icon: Newspaper,
@@ -75,7 +77,8 @@ const newsItems = [
     title: 'Nouveau Partenariat International',
     description: 'L\'UPK signe un accord de collaboration avec l\'Université Paris-Saclay pour des échanges académiques.',
     tag: 'Partenariat',
-    tagColor: 'bg-blue-100 text-blue-700'
+    tagColor: 'bg-blue-100 text-blue-700',
+    image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=2070&auto=format&fit=crop'
   }
 ];
 
@@ -100,7 +103,7 @@ const Home = () => {
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-ulk-blue-dark via-ulk-blue to-ulk-blue-light" />
         <div
-          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1786')] bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=2072&auto=format&fit=crop')] bg-cover bg-center bg-no-repeat"
           style={{ filter: 'brightness(0.35) saturate(0.8)' }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ulk-blue-dark/60 via-transparent to-ulk-blue-dark/30" />
@@ -389,20 +392,26 @@ const Home = () => {
                   whileHover={{ y: -6 }}
                   className="bg-white rounded-2xl shadow-lg shadow-neutral-200/50 overflow-hidden border border-neutral-100 hover:shadow-xl transition-all duration-300"
                 >
-                  <div className="p-8">
-                    <div className="flex items-center justify-between mb-5">
-                      <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-ulk-blue">
-                        <Icon size={24} />
-                      </div>
-                      <span className={`text-xs font-bold px-3 py-1.5 rounded-full ${item.tagColor}`}>
-                        {item.tag}
-                      </span>
-                    </div>
-                    <p className="text-xs text-neutral-400 font-medium mb-2">{item.date}</p>
-                    <h3 className="text-lg font-bold text-neutral-800 mb-3 leading-snug">{item.title}</h3>
-                    <p className="text-sm text-neutral-600 leading-relaxed">{item.description}</p>
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                    <span className={`absolute top-4 right-4 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg ${item.tagColor}`}>
+                      {item.tag}
+                    </span>
                   </div>
-                  <div className="px-8 pb-6">
+                  <div className="p-8">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-ulk-blue shrink-0">
+                        <Icon size={20} />
+                      </div>
+                      <p className="text-xs text-neutral-400 font-medium">{item.date}</p>
+                    </div>
+                    <h3 className="text-lg font-bold text-neutral-800 mb-3 leading-snug">{item.title}</h3>
+                    <p className="text-sm text-neutral-600 leading-relaxed mb-4">{item.description}</p>
                     <Link to="#" className="inline-flex items-center gap-1.5 text-sm font-semibold text-ulk-blue hover:text-ulk-gold transition-colors">
                       Lire plus <ArrowRight size={14} />
                     </Link>
@@ -416,7 +425,7 @@ const Home = () => {
 
       {/* ===== CTA BANNER ===== */}
       <section className="py-20 bg-gradient-to-br from-ulk-blue-dark via-ulk-blue to-ulk-blue-light relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1523050854058-8df90110c7f1?q=80&w=2070')] bg-cover bg-center opacity-10" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-10" />
         <div className="relative container mx-auto px-4 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

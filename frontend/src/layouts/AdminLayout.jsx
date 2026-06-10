@@ -1,6 +1,7 @@
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../store/slices/authSlice';
+import { useSettings } from '../context/settingsContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   LayoutDashboard, 
@@ -15,6 +16,7 @@ import {
 import { useState } from 'react';
 
 const AdminLayout = () => {
+  const { backgroundClass } = useSettings();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,7 +35,7 @@ const AdminLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-transparent flex">
+    <div className={`min-h-screen flex ${backgroundClass}`}>
       {/* Desktop Sidebar */}
       <aside className="hidden lg:flex flex-col w-72 bg-ulk-blue-dark text-slate-300 fixed h-full z-20">
         <div className="h-20 flex items-center px-8 bg-ulk-blue-slate border-b border-white/5">

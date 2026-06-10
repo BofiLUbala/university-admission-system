@@ -1,6 +1,7 @@
 import { Outlet, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
+import { useSettings } from '../context/settingsContext';
 
 const WHATSAPP_NUMBER = '243981215754';
 
@@ -20,8 +21,9 @@ const WhatsAppBubble = () => (
 );
 
 const PublicLayout = () => {
+  const { backgroundClass } = useSettings();
   return (
-    <div className="min-h-screen flex flex-col font-sans bg-transparent">
+    <div className={`min-h-screen flex flex-col font-sans ${backgroundClass}`}>
       <WhatsAppBubble />
       {/* Header */}
       <header className="glass fixed w-full top-0 z-50 border-b border-white/20 shadow-sm">
