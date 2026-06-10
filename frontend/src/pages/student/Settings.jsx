@@ -1,50 +1,54 @@
 import { Check, Factory, Languages, Moon, Sun } from 'lucide-react';
 import { useSettings } from '../../context/settingsContext';
 
-const languages = [
-  { code: 'en', name: 'English' },
-  { code: 'fr', name: 'Francais' },
-  { code: 'sw', name: 'Kiswahili' },
-  { code: 'ln', name: 'Lingala' },
-  { code: 'lua', name: 'Tshiluba' },
-  { code: 'kg', name: 'Kikongo' }
-];
+const getLanguages = (t) => {
+  return [
+  { code: 'en', name: t.langEn },
+  { code: 'fr', name: t.langFr },
+  { code: 'sw', name: t.langSw },
+  { code: 'ln', name: t.langLn },
+  { code: 'lua', name: t.langLua },
+  { code: 'kg', name: t.langKg }
+];};
 
-const backgrounds = [
+const getBackgrounds = (t) => {
+  return [
   {
     id: 'steel',
-    name: 'Steel Plant',
+    name: t.bgSteel,
     preview: 'bg-[radial-gradient(circle_at_top_left,rgba(37,99,235,0.38),transparent_34%),linear-gradient(135deg,#f8fafc_0%,#e5e7eb_45%,#94a3b8_100%)]'
   },
   {
     id: 'circuit',
-    name: 'Circuit Floor',
+    name: t.bgCircuit,
     preview: 'bg-[linear-gradient(90deg,rgba(15,23,42,0.18)_1px,transparent_1px),linear-gradient(0deg,rgba(15,23,42,0.18)_1px,transparent_1px),linear-gradient(135deg,#f8fafc,#bfdbfe)] bg-[size:22px_22px,22px_22px,auto]'
   },
   {
     id: 'warehouse',
-    name: 'Warehouse Lines',
+    name: t.bgWarehouse,
     preview: 'bg-[repeating-linear-gradient(135deg,rgba(245,158,11,0.32)_0_12px,transparent_12px_24px),linear-gradient(135deg,#fafafa,#a1a1aa)]'
   },
   {
     id: 'carbon',
-    name: 'Carbon Grid',
+    name: t.bgCarbon,
     preview: 'bg-[radial-gradient(circle_at_20%_20%,rgba(250,204,21,0.3),transparent_28%),repeating-linear-gradient(45deg,#f5f5f5_0_10px,#d4d4d8_10px_20px)]'
   },
   {
     id: 'deepSea',
-    name: 'Deep Sea',
+    name: t.bgDeepSea,
     preview: 'bg-[radial-gradient(circle_at_20%_10%,rgba(20,184,166,0.36),transparent_32%),radial-gradient(circle_at_80%_30%,rgba(59,130,246,0.32),transparent_30%),linear-gradient(135deg,#061826_0%,#0f3b52_48%,#082f49_100%)]'
   },
   {
     id: 'iron',
-    name: 'Iron Works',
+    name: t.bgIron,
     preview: 'bg-[repeating-linear-gradient(90deg,rgba(15,23,42,0.2)_0_2px,transparent_2px_18px),radial-gradient(circle_at_70%_15%,rgba(244,211,94,0.22),transparent_30%),linear-gradient(135deg,#d1d5db_0%,#71717a_52%,#27272a_100%)]'
   }
-];
+];};
 
 const Settings = () => {
   const { settings, t, updateSetting } = useSettings();
+  const languages = getLanguages(t);
+  const backgrounds = getBackgrounds(t);
 
   return (
     <div className="space-y-6">

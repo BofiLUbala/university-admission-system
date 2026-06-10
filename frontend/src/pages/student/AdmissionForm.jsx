@@ -2,12 +2,13 @@ import { useEffect, useMemo, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Save, ArrowRight, ArrowLeft, Camera, Upload, Check } from 'lucide-react';
+import { useSettings } from '../../context/settingsContext';
 
-const steps = [
-  { id: 1, title: 'Personal Info' },
-  { id: 2, title: 'Parent Information' },
-  { id: 3, title: 'Academic Background' },
-  { id: 4, title: 'Program Selection' }
+const getSteps = (t) => [
+  { id: 1, title: t.formPersonalInfo },
+  { id: 2, title: t.formParentInfo },
+  { id: 3, title: t.formAcademicBg },
+  { id: 4, title: t.formProgramSelection }
 ];
 
 const fallbackCountryCodes = [
@@ -115,6 +116,8 @@ const getStoredDraft = () => {
 let admissionFormDraft = getStoredDraft();
 
 const AdmissionForm = () => {
+  const { t } = useSettings();
+  const steps = useMemo(() => getSteps(t), [t]);
   const [currentStep, setCurrentStep] = useState(admissionFormDraft.currentStep);
   const [profilePhoto, setProfilePhoto] = useState(admissionFormDraft.profilePhoto);
   const [profilePhotoPreview, setProfilePhotoPreview] = useState(admissionFormDraft.profilePhotoPreview);
@@ -205,13 +208,13 @@ const AdmissionForm = () => {
 
     if (isEmpty) {
       event.preventDefault();
-      setEmptySubmitError('Please complete the required fields before submitting.');
+      setEmptySubmitError(t.formEmptyError);
       return;
     }
 
     if (!profilePhoto) {
       event.preventDefault();
-      setProfilePhotoError('Profile picture is required.');
+      setProfilePhotoError(t.formPhotoRequired);
       return;
     }
 
@@ -221,7 +224,7 @@ const AdmissionForm = () => {
 
   const nextStep = async () => {
     if (currentStep === 1 && !profilePhoto) {
-      setProfilePhotoError('Profile picture is required.');
+      setProfilePhotoError(t.formPhotoRequired);
       return;
     }
 
@@ -281,7 +284,7 @@ const AdmissionForm = () => {
 
   const renderCountryOptions = () => (
     <>
-      <option value="">Select Country</option>
+      <option value="">{t.formSelectCountry}</option>
       {countrySelectOptions.map((country) => (
         <option key={country.code} value={country.name}>
           {country.flag} {country.name}
@@ -330,7 +333,7 @@ const AdmissionForm = () => {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <h3 className="text-2xl font-bold text-neutral-800 mb-6">Personal Information</h3>
+                <h3 className="text-2xl font-bold text-neutral-800 mb-6">{t.formPersonalInfo}</h3>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-5 rounded-2xl border border-neutral-200 bg-neutral-50 p-4">
                   <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full border-4 border-white bg-white shadow-sm flex items-center justify-center">
                     {profilePhotoPreview ? (
@@ -344,10 +347,10 @@ const AdmissionForm = () => {
                     )}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <label className="block text-sm font-medium text-neutral-700 mb-2">Profile Picture</label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-2">{t.formProfilePicture}</label>
                     <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-ulk-blue px-4 py-2.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-ulk-blue-dark">
                       <Upload size={16} />
-                      Choose Photo
+                      {t.formChoosePhoto}
                       <input
                         type="file"
                         accept="image/*"
@@ -365,60 +368,60 @@ const AdmissionForm = () => {
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Full Name <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formFullName} <RequiredMark /></label>
                     <input
                       {...register("fullName", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     />
-                    {errors.fullName && <p className="mt-1 text-sm font-medium text-red-600">Full name is required.</p>}
+                    {errors.fullName && <p className="mt-1 text-sm font-medium text-red-600">{t.formFullNameRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Gender <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formGender} <RequiredMark /></label>
                     <select
                       {...register("gender", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     >
-                      <option value="">Select Gender</option>
-                      <option value="M">Male</option>
-                      <option value="F">Female</option>
+                      <option value="">{t.formSelectGender}</option>
+                      <option value="M">{t.formMale}</option>
+                      <option value="F">{t.formFemale}</option>
                     </select>
-                    {errors.gender && <p className="mt-1 text-sm font-medium text-red-600">Gender is required.</p>}
+                    {errors.gender && <p className="mt-1 text-sm font-medium text-red-600">{t.formGenderRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Marital Status <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formMaritalStatus} <RequiredMark /></label>
                     <select
                       {...register("maritalStatus", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     >
-                      <option value="">Select Status</option>
-                      <option value="SINGLE">Single</option>
-                      <option value="MARRIED">Married</option>
-                      <option value="DIVORCED">Divorced</option>
-                      <option value="WIDOWED">Widowed</option>
+                      <option value="">{t.formSelectStatus}</option>
+                      <option value="SINGLE">{t.formSingle}</option>
+                      <option value="MARRIED">{t.formMarried}</option>
+                      <option value="DIVORCED">{t.formDivorced}</option>
+                      <option value="WIDOWED">{t.formWidowed}</option>
                     </select>
-                    {errors.maritalStatus && <p className="mt-1 text-sm font-medium text-red-600">Marital status is required.</p>}
+                    {errors.maritalStatus && <p className="mt-1 text-sm font-medium text-red-600">{t.formMaritalRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Date of Birth <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formDob} <RequiredMark /></label>
                     <input
                       type="date"
                       {...register("dob", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     />
-                    {errors.dob && <p className="mt-1 text-sm font-medium text-red-600">Date of birth is required.</p>}
+                    {errors.dob && <p className="mt-1 text-sm font-medium text-red-600">{t.formDobRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Nationality <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formNationality} <RequiredMark /></label>
                     <select
                       {...register("nationality", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     >
                       {renderCountryOptions()}
                     </select>
-                    {errors.nationality && <p className="mt-1 text-sm font-medium text-red-600">Nationality is required.</p>}
+                    {errors.nationality && <p className="mt-1 text-sm font-medium text-red-600">{t.formNationalityRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Second Nationality <span className="text-neutral-400">(Optional)</span></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formSecondNationality} <span className="text-neutral-400">{t.formOptional}</span></label>
                     <select
                       {...register("secondNationality")}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
@@ -427,24 +430,24 @@ const AdmissionForm = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Disability Condition <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formDisability} <RequiredMark /></label>
                     <select
                       {...register("disabilityCondition", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     >
-                      <option value="">Select Condition</option>
-                      <option value="NONE">No disability</option>
-                      <option value="PHYSICAL">Physical disability</option>
-                      <option value="VISUAL">Visual impairment</option>
-                      <option value="HEARING">Hearing impairment</option>
-                      <option value="LEARNING">Learning disability</option>
-                      <option value="OTHER">Other</option>
+                      <option value="">{t.formSelectCondition}</option>
+                      <option value="NONE">{t.formNoDisability}</option>
+                      <option value="PHYSICAL">{t.formPhysical}</option>
+                      <option value="VISUAL">{t.formVisual}</option>
+                      <option value="HEARING">{t.formHearing}</option>
+                      <option value="LEARNING">{t.formLearning}</option>
+                      <option value="OTHER">{t.formDisabilityOther}</option>
                     </select>
-                    {errors.disabilityCondition && <p className="mt-1 text-sm font-medium text-red-600">Disability condition is required.</p>}
+                    {errors.disabilityCondition && <p className="mt-1 text-sm font-medium text-red-600">{t.formDisabilityRequired}</p>}
                   </div>
                   <div className="md:col-span-2">
                     <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <label className="block text-sm font-medium text-neutral-700">Permanent Country <RequiredMark /></label>
+                      <label className="block text-sm font-medium text-neutral-700">{t.formPermanentCountry} <RequiredMark /></label>
                       <button
                         type="button"
                         onClick={handleSameCountryToggle}
@@ -459,7 +462,7 @@ const AdmissionForm = () => {
                         }`}>
                           {sameCountry && <Check size={14} />}
                         </span>
-                        Current country is same
+                        {t.formSameCountry}
                       </button>
                     </div>
                     <select
@@ -468,10 +471,10 @@ const AdmissionForm = () => {
                     >
                       {renderCountryOptions()}
                     </select>
-                    {errors.permanentCountry && <p className="mt-1 text-sm font-medium text-red-600">Permanent country is required.</p>}
+                    {errors.permanentCountry && <p className="mt-1 text-sm font-medium text-red-600">{t.formPermanentCountryRequired}</p>}
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Current Country <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formCurrentCountry} <RequiredMark /></label>
                     <select
                       {...register("currentCountry", { required: true })}
                       disabled={sameCountry}
@@ -481,19 +484,19 @@ const AdmissionForm = () => {
                     >
                       {renderCountryOptions()}
                     </select>
-                    {errors.currentCountry && <p className="mt-1 text-sm font-medium text-red-600">Current country is required.</p>}
+                    {errors.currentCountry && <p className="mt-1 text-sm font-medium text-red-600">{t.formCurrentCountryRequired}</p>}
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Permanent Residence <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formPermanentResidence} <RequiredMark /></label>
                     <input
                       {...register("permanentResidence", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     />
-                    {errors.permanentResidence && <p className="mt-1 text-sm font-medium text-red-600">Permanent residence is required.</p>}
+                    {errors.permanentResidence && <p className="mt-1 text-sm font-medium text-red-600">{t.formPermanentResidenceRequired}</p>}
                   </div>
                   <div className="md:col-span-2">
                     <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <label className="block text-sm font-medium text-neutral-700">Current Residence <RequiredMark /></label>
+                      <label className="block text-sm font-medium text-neutral-700">{t.formCurrentResidence} <RequiredMark /></label>
                       <button
                         type="button"
                         onClick={handleSameResidenceToggle}
@@ -508,7 +511,7 @@ const AdmissionForm = () => {
                         }`}>
                           {sameResidence && <Check size={14} />}
                         </span>
-                        Same as permanent
+                        {t.formSameResidence}
                       </button>
                     </div>
                     <input
@@ -518,24 +521,24 @@ const AdmissionForm = () => {
                         sameResidence ? 'cursor-not-allowed text-neutral-500' : ''
                       }`}
                     />
-                    {errors.currentResidence && <p className="mt-1 text-sm font-medium text-red-600">Current residence is required.</p>}
+                    {errors.currentResidence && <p className="mt-1 text-sm font-medium text-red-600">{t.formCurrentResidenceRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Phone Number <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formPhone} <RequiredMark /></label>
                     <input
                       {...register("phone", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     />
-                    {errors.phone && <p className="mt-1 text-sm font-medium text-red-600">Phone number is required.</p>}
+                    {errors.phone && <p className="mt-1 text-sm font-medium text-red-600">{t.formPhoneRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Email <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formEmail} <RequiredMark /></label>
                     <input
                       type="email"
                       {...register("email", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     />
-                    {errors.email && <p className="mt-1 text-sm font-medium text-red-600">Email is required.</p>}
+                    {errors.email && <p className="mt-1 text-sm font-medium text-red-600">{t.formEmailRequired}</p>}
                   </div>
                 </div>
               </motion.div>
@@ -549,54 +552,54 @@ const AdmissionForm = () => {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <h3 className="text-2xl font-bold text-neutral-800 mb-6">Parent Information</h3>
+                <h3 className="text-2xl font-bold text-neutral-800 mb-6">{t.formParentInfo}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Parent / Guardian Full Name <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formParentName} <RequiredMark /></label>
                     <input
                       {...register("parentFullName", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     />
-                    {errors.parentFullName && <p className="mt-1 text-sm font-medium text-red-600">Parent full name is required.</p>}
+                    {errors.parentFullName && <p className="mt-1 text-sm font-medium text-red-600">{t.formParentNameRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Relationship <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formRelationship} <RequiredMark /></label>
                     <select
                       {...register("parentRelationship", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     >
-                      <option value="">Select Relationship</option>
-                      <option value="FATHER">Father</option>
-                      <option value="MOTHER">Mother</option>
-                      <option value="GUARDIAN">Guardian</option>
-                      <option value="OTHER">Other</option>
+                      <option value="">{t.formSelectRelationship}</option>
+                      <option value="FATHER">{t.formFather}</option>
+                      <option value="MOTHER">{t.formMother}</option>
+                      <option value="GUARDIAN">{t.formGuardian}</option>
+                      <option value="OTHER">{t.formDisabilityOther}</option>
                     </select>
-                    {errors.parentRelationship && <p className="mt-1 text-sm font-medium text-red-600">Relationship is required.</p>}
+                    {errors.parentRelationship && <p className="mt-1 text-sm font-medium text-red-600">{t.formRelationshipRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Parent Phone Number <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formParentPhone} <RequiredMark /></label>
                     <input
                       {...register("parentPhone", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     />
-                    {errors.parentPhone && <p className="mt-1 text-sm font-medium text-red-600">Parent phone number is required.</p>}
+                    {errors.parentPhone && <p className="mt-1 text-sm font-medium text-red-600">{t.formParentPhoneRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Parent Email <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formParentEmail} <RequiredMark /></label>
                     <input
                       type="email"
                       {...register("parentEmail", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     />
-                    {errors.parentEmail && <p className="mt-1 text-sm font-medium text-red-600">Parent email is required.</p>}
+                    {errors.parentEmail && <p className="mt-1 text-sm font-medium text-red-600">{t.formParentEmailRequired}</p>}
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Parent Address <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formParentAddress} <RequiredMark /></label>
                     <input
                       {...register("parentAddress", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     />
-                    {errors.parentAddress && <p className="mt-1 text-sm font-medium text-red-600">Parent address is required.</p>}
+                    {errors.parentAddress && <p className="mt-1 text-sm font-medium text-red-600">{t.formParentAddressRequired}</p>}
                   </div>
                 </div>
               </motion.div>
@@ -610,33 +613,33 @@ const AdmissionForm = () => {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <h3 className="text-2xl font-bold text-neutral-800 mb-6">Academic Background</h3>
+                <h3 className="text-2xl font-bold text-neutral-800 mb-6">{t.formAcademicBg}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Previous School / High School <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formPreviousSchool} <RequiredMark /></label>
                     <input
                       {...register("previousSchool", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     />
-                    {errors.previousSchool && <p className="mt-1 text-sm font-medium text-red-600">Previous school is required.</p>}
+                    {errors.previousSchool && <p className="mt-1 text-sm font-medium text-red-600">{t.formPreviousSchoolRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Section / Option <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formSection} <RequiredMark /></label>
                     <input
                       {...register("section", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     />
-                    {errors.section && <p className="mt-1 text-sm font-medium text-red-600">Section is required.</p>}
+                    {errors.section && <p className="mt-1 text-sm font-medium text-red-600">{t.formSectionRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Percentage Obtained (%) <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formPercentage} <RequiredMark /></label>
                     <input
                       type="number"
                       step="0.1"
                       {...register("percentage", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     />
-                    {errors.percentage && <p className="mt-1 text-sm font-medium text-red-600">Percentage is required.</p>}
+                    {errors.percentage && <p className="mt-1 text-sm font-medium text-red-600">{t.formPercentageRequired}</p>}
                   </div>
                 </div>
               </motion.div>
@@ -650,32 +653,32 @@ const AdmissionForm = () => {
                 exit={{ opacity: 0, x: -20 }}
                 className="space-y-6"
               >
-                <h3 className="text-2xl font-bold text-neutral-800 mb-6">Program Selection</h3>
+                <h3 className="text-2xl font-bold text-neutral-800 mb-6">{t.formProgramSelection}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Faculty <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formFaculty} <RequiredMark /></label>
                     <select
                       {...register("faculty", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     >
-                      <option value="">Select Faculty</option>
+                      <option value="">{t.formSelectFaculty}</option>
                       <option value="1">Faculty of Computer Science</option>
                       <option value="2">Faculty of Law</option>
                       <option value="3">Faculty of Economics</option>
                     </select>
-                    {errors.faculty && <p className="mt-1 text-sm font-medium text-red-600">Faculty is required.</p>}
+                    {errors.faculty && <p className="mt-1 text-sm font-medium text-red-600">{t.formFacultyRequired}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-700 mb-1">Department <RequiredMark /></label>
+                    <label className="block text-sm font-medium text-neutral-700 mb-1">{t.formDepartment} <RequiredMark /></label>
                     <select
                       {...register("department", { required: true })}
                       className="w-full px-4 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:bg-white focus:ring-2 focus:ring-ulk-blue focus:border-transparent transition-all outline-none"
                     >
-                      <option value="">Select Department</option>
+                      <option value="">{t.formSelectDepartment}</option>
                       <option value="1">Software Engineering</option>
                       <option value="2">Network Engineering</option>
                     </select>
-                    {errors.department && <p className="mt-1 text-sm font-medium text-red-600">Department is required.</p>}
+                    {errors.department && <p className="mt-1 text-sm font-medium text-red-600">{t.formDepartmentRequired}</p>}
                   </div>
                 </div>
               </motion.div>
@@ -698,7 +701,7 @@ const AdmissionForm = () => {
                 currentStep === 1 ? 'text-neutral-400 cursor-not-allowed' : 'text-ulk-blue bg-blue-50 hover:bg-blue-100'
               }`}
             >
-              <ArrowLeft size={18} /> Back
+              <ArrowLeft size={18} /> {t.formBack}
             </button>
             
             <div className="flex gap-4">
@@ -706,7 +709,7 @@ const AdmissionForm = () => {
                 type="button"
                 className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-neutral-600 bg-neutral-100 hover:bg-neutral-200 transition-all"
               >
-                <Save size={18} /> Save Draft
+                <Save size={18} /> {t.formSaveDraft}
               </button>
               
               {currentStep < steps.length ? (
@@ -715,14 +718,14 @@ const AdmissionForm = () => {
                   onClick={nextStep}
                   className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-white bg-ulk-blue hover:bg-ulk-blue-dark shadow-md transition-all"
                 >
-                  Next <ArrowRight size={18} />
+                  {t.formNext} <ArrowRight size={18} />
                 </button>
               ) : (
                 <button
                   type="submit"
                   className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-ulk-blue-dark bg-ulk-gold hover:bg-yellow-400 shadow-md transition-all"
                 >
-                  Submit Application
+                  {t.formSubmit}
                 </button>
               )}
             </div>

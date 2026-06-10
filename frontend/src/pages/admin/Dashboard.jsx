@@ -1,6 +1,7 @@
 import { Users, FileText, CheckCircle, XCircle, TrendingUp } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { motion } from 'framer-motion';
+import { useSettings } from '../../context/settingsContext';
 
 const data = [
   { name: 'Jan', applications: 40 },
@@ -41,32 +42,33 @@ const StatCard = ({ title, value, icon: Icon, trend, colorClass }) => (
 );
 
 const Dashboard = () => {
+  const { t } = useSettings();
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
-          title="Total Applications" 
+          title={t.adminTotalApps} 
           value="1,248" 
           icon={FileText} 
           trend={12} 
           colorClass="bg-blue-50 text-blue-600" 
         />
         <StatCard 
-          title="Pending Review" 
+          title={t.adminPending} 
           value="142" 
           icon={Users} 
           trend={-5} 
           colorClass="bg-yellow-50 text-yellow-600" 
         />
         <StatCard 
-          title="Approved" 
+          title={t.adminApproved} 
           value="986" 
           icon={CheckCircle} 
           trend={8} 
           colorClass="bg-green-50 text-green-600" 
         />
         <StatCard 
-          title="Rejected" 
+          title={t.adminRejected} 
           value="120" 
           icon={XCircle} 
           trend={2} 
@@ -77,7 +79,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Chart */}
         <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-          <h3 className="text-lg font-bold text-slate-800 mb-6">Applications Overview</h3>
+          <h3 className="text-lg font-bold text-slate-800 mb-6">{t.adminAppsOverview}</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -101,7 +103,7 @@ const Dashboard = () => {
 
         {/* Secondary Chart */}
         <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-          <h3 className="text-lg font-bold text-slate-800 mb-6">By Faculty</h3>
+          <h3 className="text-lg font-bold text-slate-800 mb-6">{t.adminByFaculty}</h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={facultiesData} layout="vertical" margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>

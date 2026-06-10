@@ -4,6 +4,8 @@ import {
   BookOpen, GraduationCap, Users, ArrowRight, Scale, Building2,
   Microscope, Trophy, Calendar, Newspaper, Sparkles, CheckCircle
 } from 'lucide-react';
+import { useSettings } from '../../context/settingsContext';
+import CyclingImage from '../../components/common/CyclingImage';
 
 const faculties = [
   {
@@ -52,35 +54,7 @@ const faculties = [
   }
 ];
 
-const newsItems = [
-  {
-    icon: Calendar,
-    date: '15 Juin 2026',
-    title: 'Date Limite d\'Inscription Approchante',
-    description: 'Les inscriptions pour l\'année académique 2026-2027 sont ouvertes. Postulez avant le 30 Juillet.',
-    tag: 'Inscriptions',
-    tagColor: 'bg-ulk-gold text-ulk-blue-dark',
-    image: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1932&auto=format&fit=crop'
-  },
-  {
-    icon: Trophy,
-    date: '8 Juin 2026',
-    title: 'L\'UPK Remporte le Championnat National',
-    description: 'Notre équipe de débat a remporté la première place au championnat national inter-universitaire.',
-    tag: 'Excellence',
-    tagColor: 'bg-green-100 text-green-700',
-    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop'
-  },
-  {
-    icon: Newspaper,
-    date: '1 Juin 2026',
-    title: 'Nouveau Partenariat International',
-    description: 'L\'UPK signe un accord de collaboration avec l\'Université Paris-Saclay pour des échanges académiques.',
-    tag: 'Partenariat',
-    tagColor: 'bg-blue-100 text-blue-700',
-    image: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=2070&auto=format&fit=crop'
-  }
-];
+
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -96,6 +70,48 @@ const itemVariants = {
 };
 
 const Home = () => {
+  const { t } = useSettings();
+  const newsItems = [
+    {
+      icon: Calendar,
+      date: '15 Juin 2026',
+      title: t.news1Title,
+      description: t.news1Desc,
+      tag: t.tagEnrollment,
+      tagColor: 'bg-ulk-gold text-ulk-blue-dark',
+      images: [
+        'https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1932&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2011&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070&auto=format&fit=crop',
+      ]
+    },
+    {
+      icon: Trophy,
+      date: '8 Juin 2026',
+      title: t.news2Title,
+      description: t.news2Desc,
+      tag: t.tagExcellence,
+      tagColor: 'bg-green-100 text-green-700',
+      images: [
+        'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1529543544282-ea264073e70b?q=80&w=2070&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop',
+      ]
+    },
+    {
+      icon: Newspaper,
+      date: '1 Juin 2026',
+      title: t.news3Title,
+      description: t.news3Desc,
+      tag: t.tagPartnership,
+      tagColor: 'bg-blue-100 text-blue-700',
+      images: [
+        'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=2070&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop',
+        'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop',
+      ]
+    }
+  ];
   return (
     <div className="flex flex-col min-h-screen">
 
@@ -117,7 +133,7 @@ const Home = () => {
               className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-2 mb-8"
             >
               <Sparkles size={16} className="text-ulk-gold" />
-              <span className="text-white/90 text-sm font-medium">Formation d'excellence depuis 1994</span>
+              <span className="text-white/90 text-sm font-medium">{t.heroBadge}</span>
             </motion.div>
 
             <motion.h1
@@ -126,7 +142,7 @@ const Home = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-white"
             >
-              Façonnez votre avenir à l'<span className="text-ulk-gold">Université Progressiste de Kinshasa</span>
+              {t.heroTitle}<span className="text-ulk-gold">{t.heroHighlight}</span>
             </motion.h1>
 
             <motion.p
@@ -135,7 +151,7 @@ const Home = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg md:text-xl text-blue-100/90 mb-10 max-w-2xl mx-auto leading-relaxed"
             >
-              Former la prochaine génération de leaders grâce à une éducation de classe mondiale, l'innovation et la recherche au cœur de la RDC.
+              {t.heroSub}
             </motion.p>
 
             <motion.div
@@ -150,7 +166,7 @@ const Home = () => {
                   whileTap={{ scale: 0.95 }}
                   className="bg-ulk-gold text-ulk-blue-dark px-10 py-4 rounded-full font-bold text-lg shadow-xl shadow-ulk-gold/25 hover:shadow-2xl transition-all flex items-center justify-center gap-2"
                 >
-                  Postuler à l'admission <ArrowRight size={20} />
+                  {t.heroCta} <ArrowRight size={20} />
                 </motion.button>
               </Link>
               <Link to="/about">
@@ -159,7 +175,7 @@ const Home = () => {
                   whileTap={{ scale: 0.95 }}
                   className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all"
                 >
-                  Découvrir l'UPK
+                  {t.heroDiscover}
                 </motion.button>
               </Link>
             </motion.div>
@@ -173,15 +189,15 @@ const Home = () => {
             >
               <div className="flex items-center gap-2">
                 <CheckCircle size={16} className="text-green-400" />
-                <span>Accrédité par le Ministère de l'ESU</span>
+                <span>{t.trustEsu}</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle size={16} className="text-green-400" />
-                <span>Membre de l'AUF</span>
+                <span>{t.trustAuf}</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle size={16} className="text-green-400" />
-                <span>Diplômes reconnus à l'international</span>
+                <span>{t.trustIntl}</span>
               </div>
             </motion.div>
           </div>
@@ -204,9 +220,9 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center max-w-2xl mx-auto mb-16"
           >
-            <span className="text-ulk-gold font-bold text-sm tracking-widest uppercase mb-4 block">Pourquoi nous choisir</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-ulk-blue mb-4">Pourquoi Choisir l'UPK ?</h2>
-            <p className="text-neutral-600 text-lg">Nous offrons une expérience éducative de classe mondiale conçue pour vous préparer au succès.</p>
+            <span className="text-ulk-gold font-bold text-sm tracking-widest uppercase mb-4 block">{t.whyLabel}</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-ulk-blue mb-4">{t.whyTitle}</h2>
+            <p className="text-neutral-600 text-lg">{t.whySub}</p>
           </motion.div>
 
           <motion.div
@@ -224,9 +240,9 @@ const Home = () => {
               <div className="w-16 h-16 bg-ulk-gold/10 rounded-2xl flex items-center justify-center text-ulk-gold mb-6 group-hover:bg-ulk-gold group-hover:text-ulk-blue-dark transition-all duration-300">
                 <BookOpen size={32} />
               </div>
-              <h3 className="text-2xl font-bold text-neutral-800 mb-4">Excellence Pédagogique</h3>
+              <h3 className="text-2xl font-bold text-neutral-800 mb-4">{t.whyCard1Title}</h3>
               <p className="text-neutral-600 leading-relaxed">
-                Nos professeurs de renom et experts du secteur s'engagent à fournir une éducation de la plus haute qualité, alliant théorie et pratique.
+                {t.whyCard1Desc}
               </p>
             </motion.div>
 
@@ -238,9 +254,9 @@ const Home = () => {
               <div className="w-16 h-16 bg-ulk-gold/10 rounded-2xl flex items-center justify-center text-ulk-gold mb-6 group-hover:bg-ulk-gold group-hover:text-ulk-blue-dark transition-all duration-300">
                 <GraduationCap size={32} />
               </div>
-              <h3 className="text-2xl font-bold text-neutral-800 mb-4">Installations Modernes</h3>
+              <h3 className="text-2xl font-bold text-neutral-800 mb-4">{t.whyCard2Title}</h3>
               <p className="text-neutral-600 leading-relaxed">
-                Laboratoires à la pointe de la technologie, bibliothèques complètes et salles de classe modernes conçues pour améliorer l'apprentissage.
+                {t.whyCard2Desc}
               </p>
             </motion.div>
 
@@ -252,9 +268,9 @@ const Home = () => {
               <div className="w-16 h-16 bg-ulk-gold/10 rounded-2xl flex items-center justify-center text-ulk-gold mb-6 group-hover:bg-ulk-gold group-hover:text-ulk-blue-dark transition-all duration-300">
                 <Users size={32} />
               </div>
-              <h3 className="text-2xl font-bold text-neutral-800 mb-4">Vie Campus Vibrante</h3>
+              <h3 className="text-2xl font-bold text-neutral-800 mb-4">{t.whyCard3Title}</h3>
               <p className="text-neutral-600 leading-relaxed">
-                Rejoignez une communauté diversifiée d'étudiants engagés dans de nombreux clubs, sports et activités culturelles.
+                {t.whyCard3Desc}
               </p>
             </motion.div>
           </motion.div>
@@ -272,10 +288,10 @@ const Home = () => {
             className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center"
           >
             {[
-              { value: '15,000+', label: 'Étudiants Inscrits' },
-              { value: '50+', label: 'Programmes Académiques' },
-              { value: '95%', label: "Taux d'Insertion" },
-              { value: '30+', label: "Années d'Excellence" }
+              { value: '15,000+', label: t.statStudents },
+              { value: '50+', label: t.statPrograms },
+              { value: '95%', label: t.statRate },
+              { value: '30+', label: t.statYears }
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -301,9 +317,9 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center max-w-2xl mx-auto mb-16"
           >
-            <span className="text-ulk-gold font-bold text-sm tracking-widest uppercase mb-4 block">Nos Programmes</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-ulk-blue mb-4">Explorez Nos Facultés</h2>
-            <p className="text-neutral-600 text-lg">Découvrez une gamme complète de programmes conçus pour répondre aux défis du monde moderne.</p>
+            <span className="text-ulk-gold font-bold text-sm tracking-widest uppercase mb-4 block">{t.progLabel}</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-ulk-blue mb-4">{t.progTitle}</h2>
+            <p className="text-neutral-600 text-lg">{t.progSub}</p>
           </motion.div>
 
           <motion.div
@@ -335,7 +351,7 @@ const Home = () => {
                       to={faculty.link}
                       className="inline-flex items-center gap-1.5 text-sm font-semibold text-ulk-blue hover:text-ulk-gold transition-colors"
                     >
-                      En savoir plus <ArrowRight size={14} />
+                      {t.learnMore} <ArrowRight size={14} />
                     </Link>
                   </div>
                 </motion.div>
@@ -355,7 +371,7 @@ const Home = () => {
                 whileTap={{ scale: 0.95 }}
                 className="bg-ulk-blue text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:bg-ulk-blue-light transition-all inline-flex items-center gap-2"
               >
-                Voir tous les programmes <ArrowRight size={20} />
+                {t.viewAll} <ArrowRight size={20} />
               </motion.button>
             </Link>
           </motion.div>
@@ -371,9 +387,9 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center max-w-2xl mx-auto mb-16"
           >
-            <span className="text-ulk-gold font-bold text-sm tracking-widest uppercase mb-4 block">Actualités</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-ulk-blue mb-4">Vie du Campus & Événements</h2>
-            <p className="text-neutral-600 text-lg">Restez informé des dernières nouvelles, événements et réalisations de notre communauté universitaire.</p>
+            <span className="text-ulk-gold font-bold text-sm tracking-widest uppercase mb-4 block">{t.newsLabel}</span>
+            <h2 className="text-4xl md:text-5xl font-bold text-ulk-blue mb-4">{t.newsTitle}</h2>
+            <p className="text-neutral-600 text-lg">{t.newsSub}</p>
           </motion.div>
 
           <motion.div
@@ -393,10 +409,10 @@ const Home = () => {
                   className="bg-white rounded-2xl shadow-lg shadow-neutral-200/50 overflow-hidden border border-neutral-100 hover:shadow-xl transition-all duration-300"
                 >
                   <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={item.image}
+                    <CyclingImage
+                      images={item.images}
                       alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     <span className={`absolute top-4 right-4 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg ${item.tagColor}`}>
@@ -413,7 +429,7 @@ const Home = () => {
                     <h3 className="text-lg font-bold text-neutral-800 mb-3 leading-snug">{item.title}</h3>
                     <p className="text-sm text-neutral-600 leading-relaxed mb-4">{item.description}</p>
                     <Link to="#" className="inline-flex items-center gap-1.5 text-sm font-semibold text-ulk-blue hover:text-ulk-gold transition-colors">
-                      Lire plus <ArrowRight size={14} />
+                      {t.readMore} <ArrowRight size={14} />
                     </Link>
                   </div>
                 </motion.div>
@@ -432,9 +448,9 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Prêt à Rejoindre l'UPK ?</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">{t.ctaTitle}</h2>
             <p className="text-xl text-blue-200 mb-10 max-w-xl mx-auto">
-              Faites le premier pas vers un avenir prometteur. Les admissions sont ouvertes pour l'année académique 2026-2027.
+              {t.ctaSub}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/register">
@@ -443,7 +459,7 @@ const Home = () => {
                   whileTap={{ scale: 0.95 }}
                   className="bg-ulk-gold text-ulk-blue-dark px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all inline-flex items-center gap-2"
                 >
-                  Postuler maintenant <ArrowRight size={20} />
+                  {t.ctaApply} <ArrowRight size={20} />
                 </motion.button>
               </Link>
               <Link to="/contact">
@@ -452,7 +468,7 @@ const Home = () => {
                   whileTap={{ scale: 0.95 }}
                   className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all"
                 >
-                  Nous contacter
+                  {t.ctaContact}
                 </motion.button>
               </Link>
             </div>

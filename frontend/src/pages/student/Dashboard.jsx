@@ -94,9 +94,9 @@ const Dashboard = () => {
               <FileText size={20} />
             </div>
             <div>
-              <p className="text-sm font-medium text-neutral-800">Application Draft Saved</p>
-              <p className="text-xs text-neutral-500 mt-1">Your application progress has been saved securely.</p>
-              <p className="text-xs text-neutral-400 mt-2">2 hours ago</p>
+              <p className="text-sm font-medium text-neutral-800">{t.dashAppSaved}</p>
+              <p className="text-xs text-neutral-500 mt-1">{t.dashAppSavedDesc}</p>
+              <p className="text-xs text-neutral-400 mt-2">2 {t.dashHoursAgo}</p>
             </div>
           </div>
           <div className="p-4 hover:bg-neutral-50 transition-colors flex gap-4">
@@ -104,9 +104,9 @@ const Dashboard = () => {
               <CheckCircle size={20} />
             </div>
             <div>
-              <p className="text-sm font-medium text-neutral-800">Account Created Successfully</p>
-              <p className="text-xs text-neutral-500 mt-1">Welcome to the UPK online admission portal.</p>
-              <p className="text-xs text-neutral-400 mt-2">1 day ago</p>
+              <p className="text-sm font-medium text-neutral-800">{t.dashAccCreated}</p>
+              <p className="text-xs text-neutral-500 mt-1">{t.dashAccCreatedDesc}</p>
+              <p className="text-xs text-neutral-400 mt-2">1 {t.dashDayAgo}</p>
             </div>
           </div>
         </div>

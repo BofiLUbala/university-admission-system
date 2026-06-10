@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { BookOpen, Scale, Building2, Microscope, ChevronRight, Loader, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import facultyService from '../../services/facultyService';
+import { useSettings } from '../../context/settingsContext';
 
 const iconMap = {
   'FI': BookOpen,
@@ -30,6 +31,7 @@ const containerVariants = {
 };
 
 const Faculties = () => {
+  const { t } = useSettings();
   const [faculties, setFaculties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -41,7 +43,7 @@ const Faculties = () => {
         setFaculties(results);
       })
       .catch(() => {
-        setError("Impossible de charger les facultés pour le moment.");
+        setError(t.facultiesError);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -51,7 +53,7 @@ const Faculties = () => {
       <div className="min-h-screen flex items-center justify-center bg-neutral-50">
         <div className="text-center">
           <Loader size={48} className="mx-auto animate-spin text-ulk-blue mb-4" />
-          <p className="text-neutral-500">Chargement des facultés...</p>
+          <p className="text-neutral-500">{t.facultiesLoading}</p>
         </div>
       </div>
     );
@@ -64,13 +66,13 @@ const Faculties = () => {
           <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <Scale size={36} className="text-red-500" />
           </div>
-          <h2 className="text-2xl font-bold text-neutral-800 mb-2">Une erreur est survenue</h2>
+          <h2 className="text-2xl font-bold text-neutral-800 mb-2">{t.facultiesErrorTitle}</h2>
           <p className="text-neutral-500 mb-6">{error}</p>
           <button
             onClick={() => window.location.reload()}
             className="bg-ulk-blue text-white px-6 py-3 rounded-full font-bold hover:bg-ulk-blue-light transition-colors"
           >
-            Réessayer
+            {t.facultiesRetry}
           </button>
         </div>
       </div>
@@ -89,10 +91,10 @@ const Faculties = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <span className="text-ulk-gold font-bold text-sm tracking-widest uppercase mb-4 block">Formation d'excellence</span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">Nos Facultés</h1>
+            <span className="text-ulk-gold font-bold text-sm tracking-widest uppercase mb-4 block">{t.facultiesBannerLabel}</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">{t.facultiesTitle}</h1>
             <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-              Découvrez nos facultés et trouvez le programme qui correspond à vos ambitions.
+              {t.facultiesSub}
             </p>
           </motion.div>
         </div>
@@ -104,7 +106,7 @@ const Faculties = () => {
           {faculties.length === 0 ? (
             <div className="text-center py-16">
               <Building2 size={64} className="mx-auto text-neutral-300 mb-4" />
-              <h3 className="text-xl font-bold text-neutral-500">Aucune faculté disponible</h3>
+              <h3 className="text-xl font-bold text-neutral-500">{t.facultiesEmpty}</h3>
             </div>
           ) : (
             <motion.div
@@ -151,7 +153,7 @@ const Faculties = () => {
                     {departments.length > 0 && (
                       <div className="border-t border-neutral-100 bg-neutral-50/50 px-8 py-5">
                         <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3">
-                          Départements ({departments.length})
+                          {t.departments} ({departments.length})
                         </p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {departments.map((dept) => (
@@ -182,9 +184,9 @@ const Faculties = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Prêt à Rejoindre l'UPK ?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">{t.facultiesCtaTitle}</h2>
             <p className="text-lg text-blue-200 mb-8 max-w-lg mx-auto">
-              Les admissions sont ouvertes. Postulez dès maintenant pour l'année académique 2026-2027.
+              {t.facultiesCtaSub}
             </p>
             <Link to="/register">
               <motion.button
@@ -192,7 +194,7 @@ const Faculties = () => {
                 whileTap={{ scale: 0.95 }}
                 className="bg-ulk-gold text-ulk-blue-dark px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all"
               >
-                Postuler maintenant
+                {t.facultiesCtaBtn}
               </motion.button>
             </Link>
           </motion.div>

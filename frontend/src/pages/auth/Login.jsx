@@ -5,6 +5,7 @@ import { loginStart, loginSuccess, loginFailure } from '../../store/slices/authS
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Lock, Mail, CheckCircle, AlertTriangle } from 'lucide-react';
 import authService from '../../services/authService';
+import { useSettings } from '../../context/settingsContext';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,12 +16,14 @@ const Login = () => {
 
   const from = location.state?.from?.pathname || '/student/dashboard';
 
+  const { t } = useSettings();
+
   const successMessage = new URLSearchParams(location.search).get('registration') === 'success'
-    ? 'Compte créé avec succès ! Veuillez vérifier votre boîte email et cliquer sur le lien de confirmation avant de vous connecter.'
+    ? t.loginSuccess
     : null;
 
   const verifiedMessage = new URLSearchParams(location.search).get('verified') === 'true'
-    ? 'Email vérifié avec succès ! Vous pouvez maintenant vous connecter.'
+    ? t.loginVerified
     : null;
 
   const [formData, setFormData] = useState({
@@ -58,7 +61,7 @@ const Login = () => {
       const errorMsg = err.response?.data?.detail
         || err.response?.data?.non_field_errors?.[0]
         || err.message
-        || 'Login failed. Please check your credentials.';
+        || t.loginFailed;
       dispatch(loginFailure(errorMsg));
     }
   };
@@ -77,11 +80,11 @@ const Login = () => {
           <div className="mx-auto w-16 h-16 bg-ulk-blue rounded-2xl flex items-center justify-center text-ulk-gold font-bold text-2xl shadow-lg mb-6">
             UPK
           </div>
-          <h2 className="mt-2 text-3xl font-bold text-neutral-900">Welcome Back</h2>
+          <h2 className="mt-2 text-3xl font-bold text-neutral-900">{t.loginTitle}</h2>
           <p className="mt-2 text-sm text-neutral-600">
-            Don't have an account?{' '}
+            {t.loginNoAccount}{' '}
             <Link to="/register" className="font-medium text-ulk-blue hover:text-ulk-gold transition-colors">
-              Apply for admission
+              {t.loginApply}
             </Link>
           </p>
         </div>
@@ -106,7 +109,7 @@ const Login = () => {
           
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1">Email Address</label>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">{t.loginEmailLabel}</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
                   <Mail size={20} />
@@ -118,13 +121,13 @@ const Login = () => {
                   value={formData.email}
                   onChange={handleChange}
                   className="appearance-none block w-full pl-10 pr-3 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-ulk-blue focus:bg-white transition-colors text-sm"
-                  placeholder="Enter your email"
+                  placeholder={t.loginEmailPlaceholder}
                 />
               </div>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1">Password</label>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">{t.loginPasswordLabel}</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
                   <Lock size={20} />
@@ -136,7 +139,7 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   className="appearance-none block w-full pl-10 pr-10 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-ulk-blue focus:bg-white transition-colors text-sm"
-                  placeholder="Enter your password"
+                  placeholder={t.loginPasswordPlaceholder}
                 />
                 <button
                   type="button"
@@ -158,13 +161,13 @@ const Login = () => {
                 className="h-4 w-4 text-ulk-blue focus:ring-ulk-blue border-neutral-300 rounded"
               />
               <label htmlFor="remember-me" className="ml-2 block text-sm text-neutral-700">
-                Remember me
+                {t.loginRemember}
               </label>
             </div>
 
             <div className="text-sm">
               <a href="#" className="font-medium text-ulk-blue hover:text-ulk-gold transition-colors">
-                Forgot your password?
+                {t.loginForgot}
               </a>
             </div>
           </div>
@@ -180,7 +183,7 @@ const Login = () => {
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
-                'Sign In'
+                t.loginButton
               )}
             </button>
           </div>

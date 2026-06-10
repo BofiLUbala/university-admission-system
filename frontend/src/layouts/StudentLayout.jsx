@@ -143,6 +143,17 @@ const StudentLayout = () => {
     }
   };
 
+  useEffect(() => {
+    sessionStorage.setItem('ulk_last_student_route', location.pathname);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const lastRoute = sessionStorage.getItem('ulk_last_student_route');
+    if (lastRoute && lastRoute !== location.pathname && lastRoute.startsWith('/student/')) {
+      navigate(lastRoute, { replace: true });
+    }
+  }, []);
+
   const navItems = [
     { name: t.dashboard, path: '/student/dashboard', icon: LayoutDashboard },
     { name: t.admissionForm, path: '/student/admission', icon: FileText },

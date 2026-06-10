@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Plus, Edit2, Trash2, ChevronDown, FolderOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSettings } from '../../context/settingsContext';
 
 const MOCK_FACULTIES = [
   {
@@ -30,7 +31,7 @@ const MOCK_FACULTIES = [
   }
 ];
 
-const FacultyRow = ({ faculty }) => {
+const FacultyRow = ({ faculty, t }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -45,7 +46,7 @@ const FacultyRow = ({ faculty }) => {
           </div>
           <div>
             <h3 className="font-bold text-slate-800 text-lg">{faculty.name}</h3>
-            <p className="text-sm text-slate-500">{faculty.departments.length} Departments</p>
+            <p className="text-sm text-slate-500">{faculty.departments.length} {t.facDepartments}</p>
           </div>
         </div>
         
@@ -83,7 +84,7 @@ const FacultyRow = ({ faculty }) => {
                     <span className={`px-2.5 py-1 text-xs font-bold rounded-full ${
                       dept.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-slate-200 text-slate-600'
                     }`}>
-                      {dept.status}
+                      {dept.status === 'Active' ? t.facActive : t.facInactive}
                     </span>
                     <button className="text-slate-400 hover:text-ulk-blue">
                       <Edit2 size={14} />
@@ -92,7 +93,7 @@ const FacultyRow = ({ faculty }) => {
                 </div>
               ))}
               <button className="mt-2 flex items-center gap-2 text-sm font-bold text-ulk-blue hover:text-ulk-blue-light transition-colors">
-                <Plus size={16} /> Add Department
+                <Plus size={16} /> {t.facAddDept}
               </button>
             </div>
           </motion.div>
@@ -103,18 +104,19 @@ const FacultyRow = ({ faculty }) => {
 };
 
 const Faculties = () => {
+  const { t } = useSettings();
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold text-slate-800">Faculties Management</h1>
+        <h1 className="text-2xl font-bold text-slate-800">{t.facManage}</h1>
         <button className="flex items-center gap-2 px-4 py-2 bg-ulk-blue text-white rounded-xl hover:bg-ulk-blue-dark transition-colors font-medium text-sm shadow-sm">
-          <Plus size={16} /> Add Faculty
+          <Plus size={16} /> {t.facAddFaculty}
         </button>
       </div>
 
       <div className="space-y-4">
         {MOCK_FACULTIES.map(faculty => (
-          <FacultyRow key={faculty.id} faculty={faculty} />
+          <FacultyRow key={faculty.id} faculty={faculty} t={t} />
         ))}
       </div>
     </div>

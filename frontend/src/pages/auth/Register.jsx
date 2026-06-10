@@ -3,14 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, Lock, Mail, User, Check, X, ArrowRight, MailCheck } from 'lucide-react';
 import authService from '../../services/authService';
-
-const PASSWORD_RULES = [
-  { key: 'length', label: '8-16 caractères', test: (v) => v.length >= 8 && v.length <= 16 },
-  { key: 'uppercase', label: '1 majuscule', test: (v) => /[A-Z]/.test(v) },
-  { key: 'lowercase', label: '1 minuscule', test: (v) => /[a-z]/.test(v) },
-  { key: 'number', label: '1 chiffre', test: (v) => /[0-9]/.test(v) },
-  { key: 'special', label: '1 caractère spécial', test: (v) => /[!@#$%^&*(),.?":{}|<>_\-]/.test(v) },
-];
+import { useSettings } from '../../context/settingsContext';
 
 const PasswordRule = ({ label, met }) => (
   <div className={`flex items-center gap-1.5 text-xs transition-colors ${met ? 'text-green-600' : 'text-neutral-400'}`}>
@@ -20,6 +13,15 @@ const PasswordRule = ({ label, met }) => (
 );
 
 const Register = () => {
+  const { t } = useSettings();
+  const PASSWORD_RULES = [
+    { key: 'length', label: t.regRule8_16, test: (v) => v.length >= 8 && v.length <= 16 },
+    { key: 'uppercase', label: t.regRuleUpper, test: (v) => /[A-Z]/.test(v) },
+    { key: 'lowercase', label: t.regRuleLower, test: (v) => /[a-z]/.test(v) },
+    { key: 'number', label: t.regRuleNumber, test: (v) => /[0-9]/.test(v) },
+    { key: 'special', label: t.regRuleSpecial, test: (v) => /[!@#$%^&*(),.?":{}|<>_\-]/.test(v) },
+  ];
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -54,11 +56,11 @@ const Register = () => {
     setServerError(null);
 
     if (!allRulesMet) {
-      setServerError("Le mot de passe ne respecte pas toutes les exigences.");
+      setServerError(t.regPasswordError);
       return;
     }
     if (!passwordsMatch) {
-      setServerError("Les mots de passe ne correspondent pas.");
+      setServerError(t.regConfirmError);
       return;
     }
 
@@ -83,14 +85,14 @@ const Register = () => {
         else if (data.detail) messages.push(data.detail);
         else {
           Object.entries(data).forEach(([key, val]) => {
-            const label = { email: 'Email', password: 'Mot de passe', confirm_password: 'Confirmation' }[key] || key;
+            const label = { email: t.regEmailLabel, password: t.regPasswordLabel, confirm_password: t.regConfirmLabel }[key] || key;
             const msg = Array.isArray(val) ? val[0] : val;
             messages.push(`${label}: ${msg}`);
           });
         }
         setServerError(messages.join(' | '));
       } else {
-        setServerError(err.message || "Erreur lors de l'inscription.");
+        setServerError(err.message || t.regSubmitError);
       }
     }
   };
@@ -109,42 +111,42 @@ const Register = () => {
           <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
             <MailCheck size={40} className="text-green-600" />
           </div>
-          <h2 className="text-2xl font-bold text-neutral-900 mb-2">Vérifiez votre email</h2>
+          <h2 className="text-2xl font-bold text-neutral-900 mb-2">{t.regEmailSent}</h2>
           <p className="text-neutral-600 mb-2 leading-relaxed">
-            Un email de confirmation a été envoyé à <strong className="text-neutral-800">{formData.email}</strong>.
+            {t.regEmailSentDesc} <strong className="text-neutral-800">{formData.email}</strong>.
           </p>
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 text-sm text-blue-700 text-left">
-            <p className="font-medium mb-1">📩 Prochaines étapes :</p>
+            <p className="font-medium mb-1">{t.regStepsTitle}</p>
             <ol className="list-decimal list-inside space-y-1 text-blue-600">
-              <li>Ouvrez votre boîte de réception</li>
-              <li>Cliquez sur le lien de confirmation reçu</li>
-              <li>Votre compte sera activé automatiquement</li>
-              <li>Connectez-vous avec vos identifiants</li>
+              <li>{t.regStep1}</li>
+              <li>{t.regStep2}</li>
+              <li>{t.regStep3}</li>
+              <li>{t.regStep4}</li>
             </ol>
-            <p className="mt-2 text-blue-500 text-xs">⏱ Le lien est valable 2 heures.</p>
+            <p className="mt-2 text-blue-500 text-xs">{t.regLinkExpiry}</p>
           </div>
           <div className="space-y-3">
             <button
               onClick={() => navigate('/login')}
               className="w-full flex items-center justify-center gap-2 bg-ulk-blue hover:bg-ulk-blue-dark text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-md"
             >
-              Aller à la connexion
+              {t.regGoLogin}
               <ArrowRight size={18} />
             </button>
             <p className="text-xs text-neutral-500">
-              Vous n'avez pas reçu l'email ? Vérifiez vos spams ou{' '}
+              {t.regNotReceived}{' '}
               <button
                 onClick={async () => {
                   try {
                     await authService.resendVerification({ email: formData.email });
-                    alert("Un nouvel email de vérification a été envoyé.");
+                    alert(t.regResendSuccess);
                   } catch {
-                    alert("Erreur lors du renvoi. Veuillez réessayer.");
+                    alert(t.regResendError);
                   }
                 }}
                 className="text-ulk-blue hover:text-ulk-gold font-medium transition-colors"
               >
-                renvoyez le lien
+                {t.regResend}
               </button>
             </p>
           </div>
@@ -167,11 +169,11 @@ const Register = () => {
           <div className="mx-auto w-16 h-16 bg-ulk-blue rounded-2xl flex items-center justify-center text-ulk-gold font-bold text-2xl shadow-lg mb-6">
             UPK
           </div>
-          <h2 className="mt-2 text-3xl font-bold text-neutral-900">Start Your Journey</h2>
+          <h2 className="mt-2 text-3xl font-bold text-neutral-900">{t.regTitle}</h2>
           <p className="mt-2 text-sm text-neutral-600">
-            Already have an account?{' '}
+            {t.regHaveAccount}{' '}
             <Link to="/login" className="font-medium text-ulk-blue hover:text-ulk-gold transition-colors">
-              Sign in
+              {t.regSignIn}
             </Link>
           </p>
         </div>
@@ -186,7 +188,7 @@ const Register = () => {
           <div className="space-y-4">
             <div className="flex gap-4">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-neutral-700 mb-1">First Name</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">{t.regFirstName}</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
                     <User size={20} />
@@ -198,12 +200,12 @@ const Register = () => {
                     value={formData.firstName}
                     onChange={handleChange}
                     className="appearance-none block w-full pl-10 pr-3 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-ulk-blue focus:bg-white transition-colors text-sm"
-                    placeholder="First Name"
+                    placeholder={t.regFirstNamePlaceholder}
                   />
                 </div>
               </div>
               <div className="flex-1">
-                <label className="block text-sm font-medium text-neutral-700 mb-1">Last Name</label>
+                <label className="block text-sm font-medium text-neutral-700 mb-1">{t.regLastName}</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
                     <User size={20} />
@@ -215,14 +217,14 @@ const Register = () => {
                     value={formData.lastName}
                     onChange={handleChange}
                     className="appearance-none block w-full pl-10 pr-3 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-ulk-blue focus:bg-white transition-colors text-sm"
-                    placeholder="Last Name"
+                    placeholder={t.regLastNamePlaceholder}
                   />
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1">Email Address</label>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">{t.regEmailLabel}</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
                   <Mail size={20} />
@@ -234,13 +236,13 @@ const Register = () => {
                   value={formData.email}
                   onChange={handleChange}
                   className="appearance-none block w-full pl-10 pr-3 py-3 border border-neutral-200 rounded-xl bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-ulk-blue focus:bg-white transition-colors text-sm"
-                  placeholder="Enter your email"
+                  placeholder={t.regEmailPlaceholder}
                 />
               </div>
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1">Password</label>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">{t.regPasswordLabel}</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
                   <Lock size={20} />
@@ -256,7 +258,7 @@ const Register = () => {
                       ? allRulesMet ? 'border-green-400' : 'border-red-300'
                       : 'border-neutral-200'
                   }`}
-                  placeholder="Password"
+                  placeholder={t.regPasswordPlaceholder}
                 />
                 <button
                   type="button"
@@ -276,7 +278,7 @@ const Register = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-neutral-700 mb-1">Confirm Password</label>
+              <label className="block text-sm font-medium text-neutral-700 mb-1">{t.regConfirmLabel}</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-neutral-400">
                   <Lock size={20} />
@@ -292,7 +294,7 @@ const Register = () => {
                       ? passwordsMatch ? 'border-green-400' : 'border-red-300'
                       : 'border-neutral-200'
                   }`}
-                  placeholder="Confirm password"
+                  placeholder={t.regConfirmPlaceholder}
                 />
                 <button
                   type="button"
@@ -305,7 +307,7 @@ const Register = () => {
               {showMatch && (
                 <div className={`mt-1.5 flex items-center gap-1.5 text-xs ${passwordsMatch ? 'text-green-600' : 'text-red-500'}`}>
                   {passwordsMatch ? <Check size={14} /> : <X size={14} />}
-                  {passwordsMatch ? 'Mots de passe identiques' : 'Les mots de passe ne correspondent pas'}
+                  {passwordsMatch ? t.regMatch : t.regNoMatch}
                 </div>
               )}
             </div>
@@ -322,7 +324,7 @@ const Register = () => {
               {loading ? (
                 <div className="w-5 h-5 border-2 border-ulk-blue/30 border-t-ulk-blue rounded-full animate-spin" />
               ) : (
-                'Create Account'
+                t.regButton
               )}
             </button>
           </div>

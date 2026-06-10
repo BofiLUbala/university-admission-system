@@ -1,14 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Upload, FileText, CheckCircle, X, Trash2 } from 'lucide-react';
 import { motion } from 'framer-motion';
-
-const requiredDocs = [
-  { id: 'diploma', name: 'Diploma / High School Certificate', required: true },
-  { id: 'transcript', name: 'Academic Transcript', required: true },
-  { id: 'photo', name: 'Passport Photo', required: true },
-  { id: 'id_card', name: 'Identity Card', required: true },
-  { id: 'birth_cert', name: 'Birth Certificate', required: false },
-];
+import { useSettings } from '../../context/settingsContext';
 
 // Initial empty state
 const initialDocumentState = {};
@@ -28,8 +21,18 @@ const getStoredDocumentDraft = () => {
 
 let documentUploadDraft = getStoredDocumentDraft();
 
+const requiredDocs = (t) => [
+  { id: 'diploma', name: t.docDiploma, required: true },
+  { id: 'transcript', name: t.docTranscript, required: true },
+  { id: 'photo', name: t.docPhoto, required: true },
+  { id: 'id_card', name: t.docIdCard, required: true },
+  { id: 'birth_cert', name: t.docBirthCert, required: false },
+];
+
 const Documents = () => {
+  const { t } = useSettings();
   const [uploadedFiles, setUploadedFiles] = useState(documentUploadDraft);
+  const docs = requiredDocs(t);
 
   useEffect(() => {
     documentUploadDraft = uploadedFiles;
@@ -84,21 +87,21 @@ const Documents = () => {
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-neutral-200">
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-neutral-900">Document Upload</h2>
-          <p className="text-neutral-500 mt-2">Please upload clear, legible copies of your documents. PDF, JPG, and PNG are supported (Max 5MB per file).</p>
+          <h2 className="text-2xl font-bold text-neutral-900">{t.docTitle}</h2>
+          <p className="text-neutral-500 mt-2">{t.docDesc}</p>
         </div>
 
         <div className="space-y-6">
-          {requiredDocs.map(doc => (
+          {docs.map(doc => (
             <div key={doc.id} className="border border-neutral-200 rounded-2xl p-4 transition-all hover:border-ulk-blue/30 bg-neutral-50/50">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex-1">
                   <h4 className="font-bold text-neutral-800 flex items-center gap-2">
                     {doc.name} 
-                    {doc.required && <span className="text-xs font-bold text-red-500 px-2 py-0.5 bg-red-50 rounded-full">Required</span>}
+                    {doc.required && <span className="text-xs font-bold text-red-500 px-2 py-0.5 bg-red-50 rounded-full">{t.docRequired}</span>}
                   </h4>
                   <p className="text-sm text-neutral-500 mt-1">
-                    {uploadedFiles[doc.id] ? `Selected: ${uploadedFiles[doc.id].name}` : 'No file chosen'}
+                    {uploadedFiles[doc.id] ? `${t.docSelected}: ${uploadedFiles[doc.id].name}` : t.docNoFile}
                   </p>
                 </div>
 
@@ -110,7 +113,7 @@ const Documents = () => {
                       className="flex items-center gap-3 bg-green-50 text-green-700 px-4 py-2 rounded-xl border border-green-200"
                     >
                       <CheckCircle size={18} />
-                      <span className="text-sm font-bold">Uploaded</span>
+                      <span className="text-sm font-bold">{t.docUploaded}</span>
                       <button onClick={() => removeFile(doc.id)} className="ml-2 text-red-500 hover:bg-red-100 p-1 rounded-lg transition-colors">
                         <Trash2 size={16} />
                       </button>
@@ -129,7 +132,7 @@ const Documents = () => {
                       />
                       <div className="flex flex-col items-center gap-1 text-ulk-blue">
                         <Upload size={20} />
-                        <span className="text-xs font-medium">Click or drag</span>
+                        <span className="text-xs font-medium">{t.docClickOrDrag}</span>
                       </div>
                     </div>
                   )}
@@ -141,7 +144,7 @@ const Documents = () => {
 
         <div className="mt-10 pt-6 border-t border-neutral-100 flex justify-end">
           <button className="bg-ulk-blue text-white px-8 py-3 rounded-xl font-bold shadow-md hover:bg-ulk-blue-dark transition-all flex items-center gap-2">
-            Submit Documents
+            {t.docSubmit}
           </button>
         </div>
       </div>
